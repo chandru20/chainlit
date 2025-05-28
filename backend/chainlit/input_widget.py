@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional
 
 from pydantic import Field
 from pydantic.dataclasses import dataclass
@@ -14,6 +14,7 @@ class InputWidget:
     initial: Any = None
     tooltip: Optional[str] = None
     description: Optional[str] = None
+    on_change: Optional[Callable] = None
 
     def __post_init__(
         self,
