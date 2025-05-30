@@ -9,7 +9,7 @@ interface WidgetNumberInputProps extends IInputWidget {
 }
 
 const WidgetNumberInput = (widget: WidgetNumberInputProps) => {
-  const { socket } = useChatSession();
+  const { session } = useChatSession();
   const [value, setValue] = useState<string>((widget.initial !== undefined ? widget.initial : '').toString());
 
   useEffect(() => {
@@ -21,11 +21,11 @@ const WidgetNumberInput = (widget: WidgetNumberInputProps) => {
   };
   
   const handleBlur = () => {
-    if (socket) {
+    if (session?.socket) {
       const numValue = parseFloat(value);
       if (!isNaN(numValue)) {
         console.log(`Emitting input_widget_change for ${widget.id}: ${numValue}`);
-        socket.emit('input_widget_change', { id: widget.id, value: numValue });
+        session.socket.emit('input_widget_change', { id: widget.id, value: numValue });
       } else {
         // Handle invalid number input, maybe revert or show error? For now, just log.
         console.warn(`Invalid number input for ${widget.id}: ${value}. Not emitting.`);
@@ -36,19 +36,17 @@ const WidgetNumberInput = (widget: WidgetNumberInputProps) => {
   };
 
   return (
-    <div className="widget-number-input flex items-center space-x-1 p-1" style={{ minWidth: '100px' }}>
-      <Input
-        id={widget.id}
-        name={widget.id}
-        type="number"
-        value={value}
-        onChange={handleChange}
-        onBlur={handleBlur} // Emit on blur
-        placeholder={widget.placeholder || widget.label}
-        className="text-xs p-1"
-        aria-label={widget.label}
-      />
-    </div>
+    <Input
+      id={widget.id}
+      name={widget.id}
+      type="number"
+      value={value}
+      onChange={handleChange}
+      onBlur={handleBlur} // Emit on blur
+      placeholder={widget.placeholder || widget.label}
+      className="text-xs h-7 px-2 py-0 min-w-[60px] max-w-[100px]"
+      aria-label={widget.label}
+    />
   );
 };
 

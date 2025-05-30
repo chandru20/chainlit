@@ -12,7 +12,7 @@ interface WidgetTextInputProps extends IInputWidget {
 }
 
 const WidgetTextInput = (widget: WidgetTextInputProps) => {
-  const { socket } = useChatSession();
+  const { session } = useChatSession();
   const [value, setValue] = useState<string>(widget.initial || '');
 
   useEffect(() => {
@@ -24,18 +24,18 @@ const WidgetTextInput = (widget: WidgetTextInputProps) => {
   };
 
   const handleSubmit = () => {
-    if (socket) {
+    if (session?.socket) {
       console.log(`Emitting input_widget_change for ${widget.id}: ${value}`);
-      socket.emit('input_widget_change', { id: widget.id, value: value });
+      session.socket.emit('input_widget_change', { id: widget.id, value: value });
     }
   };
   
   // Debounce emit or emit on blur/enter? For now, using a submit button or on blur.
   const handleBlur = () => { // Removed _side_effects from here
     // Emit on blur
-     if (socket) {
+     if (session?.socket) {
       console.log(`Emitting input_widget_change (on blur) for ${widget.id}: ${value}`);
-      socket.emit('input_widget_change', { id: widget.id, value: value });
+      session.socket.emit('input_widget_change', { id: widget.id, value: value });
     }
   }
 
@@ -46,21 +46,14 @@ const WidgetTextInput = (widget: WidgetTextInputProps) => {
     onChange: handleChange,
     onBlur: handleBlur, // Emit on blur
     placeholder: widget.placeholder || widget.label,
-    className: "text-xs p-1",
+    className: "text-xs h-7 px-2 py-0 min-w-[80px] max-w-[120px]",
     "aria-label": widget.label,
   };
 
-  return (
-    <div className="widget-text-input flex items-center space-x-1 p-1" style={{ minWidth: '150px' }}>
-      {widget.multiline ? (
-        <Textarea {...commonProps} rows={2} />
-      ) : (
-        <Input {...commonProps} type="text" />
-      )}
-      {/* Optional: Submit button if not relying solely on blur 
-      <Button onClick={handleSubmit} size="sm" className="text-xs p-1">Send</Button> 
-      */}
-    </div>
+  return widget.multiline ? (
+    <Textarea {...commonProps} rows={2} className="text-xs p-2 min-w-[100px] max-w-[140px] h-14 resize-none" />
+  ) : (
+    <Input {...commonProps} type="text" />
   );
 };
 

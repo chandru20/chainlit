@@ -36,12 +36,11 @@ const InputWidgetsBar = () => {
   return (
     <div
       id="input-widgets-bar"
-      className="input-widgets-bar flex items-center gap-2 overflow-x-auto flex-shrink-0"
-      style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'nowrap' }}
+      className="input-widgets-bar flex items-center gap-1 overflow-x-auto flex-shrink-0"
     >
       {widgets.map((widget) => (
         <div key={widget.id} className="input-widget-item flex items-center flex-shrink-0 gap-1">
-          <label htmlFor={widget.id} title={widget.tooltip || widget.label} className="text-xs whitespace-nowrap cursor-default font-medium">
+          <label htmlFor={widget.id} title={widget.tooltip || widget.label} className="text-xs whitespace-nowrap cursor-default font-medium text-muted-foreground">
             {widget.label}
           </label>
           {widget.type === 'slider' && <WidgetSlider {...widget} />}

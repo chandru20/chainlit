@@ -15,7 +15,7 @@ interface WidgetSelectProps extends IInputWidget {
 }
 
 const WidgetSelect = (widget: WidgetSelectProps) => {
-  const { socket } = useChatSession();
+  const { session } = useChatSession();
   // Ensure initial value is one of the item values, or default to first if not specified/invalid
   const getValidInitial = () => {
     if (widget.initial && widget.items.find(item => item.value === widget.initial)) {
@@ -32,32 +32,33 @@ const WidgetSelect = (widget: WidgetSelectProps) => {
 
   const handleValueChange = (newValue: string) => {
     setValue(newValue);
-    if (socket) {
+    if (session?.socket) {
       console.log(`Emitting input_widget_change for ${widget.id}: ${newValue}`);
-      socket.emit('input_widget_change', { id: widget.id, value: newValue });
+      session.socket.emit('input_widget_change', { id: widget.id, value: newValue });
     }
   };
 
   return (
-    <div className="widget-select flex items-center space-x-2 p-1" style={{ minWidth: '150px' }}>
-      {/* <label htmlFor={widget.id} className="text-xs whitespace-nowrap">{widget.label}</label> */}
-      <Select
-        value={value}
-        onValueChange={handleValueChange}
-        name={widget.id}
+    <Select
+      value={value}
+      onValueChange={handleValueChange}
+      name={widget.id}
+    >
+      <SelectTrigger 
+        id={widget.id} 
+        className="h-7 min-w-[80px] max-w-[120px] text-xs px-2 py-0 border-gray-300 dark:border-gray-600" 
+        aria-label={widget.label}
       >
-        <SelectTrigger id={widget.id} className="w-full text-xs" aria-label={widget.label}>
-          <SelectValue placeholder={widget.label || "Select..."} />
-        </SelectTrigger>
-        <SelectContent>
-          {(widget.items || []).map((item) => (
-            <SelectItem key={item.value} value={item.value} className="text-xs">
-              {item.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </div>
+        <SelectValue placeholder={widget.label || "Select..."} />
+      </SelectTrigger>
+      <SelectContent className="min-w-[80px]">
+        {(widget.items || []).map((item) => (
+          <SelectItem key={item.value} value={item.value} className="text-xs py-1 px-2">
+            {item.label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 };
 
