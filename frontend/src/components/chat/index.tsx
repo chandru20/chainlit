@@ -232,8 +232,6 @@ const Chat = () => {
             <MessagesContainer navigate={navigate} />
           </div>
         </ScrollContainer>
-        {/* InputWidgetsBar added here */}
-        <InputWidgetsBar />
         <div
           className="flex flex-col mx-auto w-full p-4 pt-0"
           style={{

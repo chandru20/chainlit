@@ -12,22 +12,22 @@ import WidgetNumberInput from './WidgetNumberInput';
 
 const InputWidgetsBar = () => {
   const [widgets, setWidgets] = useRecoilState(inputWidgetsState);
-  const { socket } = useChatSession();
+  const { session } = useChatSession();
 
   useEffect(() => {
-    if (!socket) return;
+    if (!session?.socket) return;
 
     const handleSetInputWidgets = (receivedWidgets: IInputWidget[]) => {
       console.log('Received set_input_widgets event with:', receivedWidgets);
       setWidgets(receivedWidgets);
     };
 
-    socket.on('set_input_widgets', handleSetInputWidgets);
+    session.socket.on('set_input_widgets', handleSetInputWidgets);
 
     return () => {
-      socket.off('set_input_widgets', handleSetInputWidgets);
+      session.socket.off('set_input_widgets', handleSetInputWidgets);
     };
-  }, [socket, setWidgets]);
+  }, [session?.socket, setWidgets]);
 
   if (!widgets.length) {
     return null;
@@ -36,12 +36,12 @@ const InputWidgetsBar = () => {
   return (
     <div
       id="input-widgets-bar"
-      className="input-widgets-bar p-2 bg-gray-100 dark:bg-gray-900 border-t border-gray-300 dark:border-gray-700 shadow-md flex items-center space-x-2 overflow-x-auto print:hidden"
-      style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '8px 16px', flexWrap: 'nowrap' }}
+      className="input-widgets-bar flex items-center gap-2 overflow-x-auto flex-shrink-0"
+      style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'nowrap' }}
     >
       {widgets.map((widget) => (
-        <div key={widget.id} className="input-widget-item flex items-center flex-shrink-0 space-x-1">
-          <label htmlFor={widget.id} title={widget.tooltip || widget.label} className="text-xs mr-1 whitespace-nowrap cursor-default">
+        <div key={widget.id} className="input-widget-item flex items-center flex-shrink-0 gap-1">
+          <label htmlFor={widget.id} title={widget.tooltip || widget.label} className="text-xs whitespace-nowrap cursor-default font-medium">
             {widget.label}
           </label>
           {widget.type === 'slider' && <WidgetSlider {...widget} />}
