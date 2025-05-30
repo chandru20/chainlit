@@ -53,7 +53,7 @@ const WidgetSelect = (widget: WidgetSelectProps) => {
       </SelectTrigger>
       <SelectContent className="min-w-[80px]">
         {(widget.items || []).map((item) => (
-          <SelectItem key={item.value} value={item.value} className="text-xs py-1 px-2">
+          <SelectItem key={item.value} value={item.value} className="text-xs py-1 pl-6 pr-2 relative">
             {item.label}
           </SelectItem>
         ))}
