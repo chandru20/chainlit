@@ -54,29 +54,64 @@ def copy_frontend(project_root):
     """Copy the frontend dist directory to the backend for inclusion in the package."""
     backend_frontend_dir = project_root / "backend" / "chainlit" / "frontend" / "dist"
     frontend_dist = project_root / "frontend" / "dist"
-    copy_directory(frontend_dist, backend_frontend_dir, "frontend assets")
+    
+    if frontend_dist.exists():
+        copy_directory(frontend_dist, backend_frontend_dir, "frontend assets")
+    else:
+        print(f"Warning: Frontend dist directory not found at {frontend_dist}")
 
 
 def copy_copilot(project_root):
     """Copy the copilot dist directory to the backend for inclusion in the package."""
     backend_copilot_dir = project_root / "backend" / "chainlit" / "copilot" / "dist"
     copilot_dist = project_root / "libs" / "copilot" / "dist"
-    copy_directory(copilot_dist, backend_copilot_dir, "copilot assets")
+    
+    if copilot_dist.exists():
+        copy_directory(copilot_dist, backend_copilot_dir, "copilot assets")
+    else:
+        print(f"Warning: Copilot dist directory not found at {copilot_dist}")
 
 
 def build():
     """Main build function with proper error handling"""
 
-    print(
-        "\n-- Building frontend, this might take a while!\n\n"
-        "   If you don't need to build the frontend and just want dependencies installed, use:\n"
-        "   `poetry install --no-root`\n"
-    )
-
     try:
         # Find directory containing this file
         backend_dir = pathlib.Path(__file__).resolve().parent
         project_root = backend_dir.parent
+
+        # Check if assets are already present in the backend (installed from wheel)
+        backend_frontend_dist = backend_dir / "chainlit" / "frontend" / "dist"
+        backend_copilot_dist = backend_dir / "chainlit" / "copilot" / "dist"
+        
+        if backend_frontend_dist.exists() and backend_copilot_dist.exists():
+            print("-- Assets already present in package, skipping build")
+            return
+
+        # Check if we're in a development environment (has frontend source)
+        frontend_src_dir = project_root / "frontend"
+        copilot_src_dir = project_root / "libs" / "copilot"
+        frontend_dist = project_root / "frontend" / "dist"
+        copilot_dist = project_root / "libs" / "copilot" / "dist"
+        
+        # If we don't have source directories, we can't build
+        if not frontend_src_dir.exists() or not copilot_src_dir.exists():
+            print("-- No frontend source found and no assets present - this may be an incomplete installation")
+            return
+
+        # If dist directories already exist, just copy them (assets are pre-built)
+        if frontend_dist.exists() and copilot_dist.exists():
+            print("-- Found existing frontend dist assets, copying them")
+            copy_frontend(project_root)
+            copy_copilot(project_root)
+            return
+
+        # Otherwise, we're in development mode - build from source
+        print(
+            "\n-- Building frontend, this might take a while!\n\n"
+            "   If you don't need to build the frontend and just want dependencies installed, use:\n"
+            "   `poetry install --no-root`\n"
+        )
 
         pnpm = shutil.which("pnpm")
         if not pnpm:
