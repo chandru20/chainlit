@@ -1,3 +1,35 @@
+## v2.8.1
+
+- Package name: chainlit-chandru20
+- Version source: backend/chainlit/version.py -> 2.8.1
+- Build system: hatchling via `hatch build` with custom build hook copying prebuilt assets
+- Frontend assets: prebuilt and bundled (no client build required on install)
+
+Actions taken:
+- Built UI bundles: libs/react-client, libs/copilot, frontend
+- Copied dist assets into backend package: `backend/chainlit/frontend/dist`, `backend/chainlit/copilot/dist`
+- Built sdist and wheel with hatch (sdist and wheel include the dist assets)
+
+Artifacts (backend/dist):
+- chainlit_chandru20-2.8.1.tar.gz
+- chainlit_chandru20-2.8.1-py3-none-any.whl
+
+Verify assets included:
+- tar -tzf backend/dist/chainlit_chandru20-2.8.1.tar.gz | egrep "(chainlit/frontend/dist/|chainlit/copilot/dist/)" | head
+- unzip -l backend/dist/chainlit_chandru20-2.8.1-py3-none-any.whl | egrep "(chainlit/frontend/dist/|chainlit/copilot/dist/)" | head
+
+Smoke test (imports and embedded assets):
+- Install wheel in a temp env and confirm existence of:
+	- chainlit/frontend/dist/index.html
+	- chainlit/copilot/dist/index.js
+
+Publish (requires PyPI token in env):
+- export PYPI_TOKEN=...  # or POETRY_PYPI_TOKEN_PYPI=...
+- cd backend && twine upload -u __token__ -p "$PYPI_TOKEN" dist/*
+
+Notes:
+- End users can `pip install chainlit-chandru20==2.8.1` and `import chainlit` without any frontend build.
+
 
 # chainlit-chandru20 v2.7.3 Release Summary
 

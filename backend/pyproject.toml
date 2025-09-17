@@ -1,5 +1,5 @@
 [project]
-name = "chainlit"
+name = "chainlit-chandru20"
 dynamic = ["version"]
 keywords = [
     "LLM",
@@ -61,7 +61,6 @@ dependencies = [
 [project.urls]
 Homepage = "https://chainlit.io/"
 Documentation = "https://docs.chainlit.io/"
-Repository = "https://github.com/Chainlit/chainlit"
 
 [project.scripts]
 chainlit = "chainlit.cli:cli"

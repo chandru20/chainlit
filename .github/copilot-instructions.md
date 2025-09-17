@@ -1,6 +1,6 @@
 # Chainlit Development Instructions
 
-Chainlit is a Python framework for building conversational AI applications with Python backend and React frontend. It uses uv for Python dependency management and pnpm for Node.js packages.
+Chainlit-chandru20 is fork from the main Chainlit repository and is a Python framework for building conversational AI applications with Python backend and React frontend. It uses uv for Python dependency management and pnpm for Node.js packages.
 
 Always reference these instructions first and fallback to search or bash commands only when you encounter unexpected information that does not match the info here.
 
@@ -9,7 +9,7 @@ Always reference these instructions first and fallback to search or bash command
 ### Bootstrap, Build, and Test the Repository
 
 **CRITICAL**: All commands must complete - NEVER CANCEL any build or test operations. Use appropriate timeouts.
-
+USE uv for all Python packages and commands in the backend.
 1. **Install Dependencies (Required first)**:
    ```bash
    # Install uv (if not available)
@@ -180,3 +180,51 @@ uv run chainlit run app.py -w
 - **Node.js**: >= 20 (24+ recommended)
 - **uv**: 2.1.3 (install via pipx)
 - **pnpm**: Latest (install via npm)
+
+## Release summary (fork-specific)
+
+This fork ships independently to PyPI as `chainlit-chandru20`. Latest release details for reference and verification when cutting a new release.
+
+### chainlit-chandru20 v2.7.3
+- Package: `chainlit-chandru20`
+- Version: `2.7.3`
+- React Client Version: `0.4.3`
+- Build Status: Built ✅
+- Publish Status: Published to PyPI ✅
+
+Artifacts
+```
+backend/dist/
+├── chainlit_chandru20-2.7.3-cp312-cp312-macosx_15_0_arm64.whl
+└── chainlit_chandru20-2.7.3.tar.gz
+```
+
+Included assets in package
+- frontend/dist/
+- libs/copilot/dist/
+- libs/react-client/dist/
+
+Verification
+- Import check: `python -c "import chainlit; print(chainlit.__version__)"` → `2.7.3`
+- Frontend/copilot assets bundled under `backend/chainlit`
+- PyPI upload completed successfully
+
+Changelog (high level)
+- Fix: Translation loading fallback improvements
+- Chore: Version bumps and build asset updates
+
+Release actions (for maintainers)
+```bash
+# Tag the release
+git tag v2.7.3
+git push origin v2.7.3
+
+# Push release branch
+git checkout -b release/2.7.3
+git add backend/pyproject.toml backend/chainlit/version.py libs/react-client/package.json RELEASE_SUMMARY.md
+git commit -m "chore(release): 2.7.3\n\n- Version bumps\n- Release notes"
+git push -u origin release/2.7.3
+```
+
+Notes
+- Publishing for this release was executed via Poetry: `poetry publish --build` with a PyPI token (do not commit tokens). Future releases can use the same flow or be migrated to `uv build` + `twine` if desired.

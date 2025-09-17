@@ -1,7 +1,7 @@
-from importlib import metadata
+"""Package version.
 
-try:
-	__version__ = metadata.version(__package__)
-except metadata.PackageNotFoundError:
-	# Package metadata not available (editable dev or source tree). Fallback to local fork version.
-	__version__ = "2.7.3"
+This file is parsed by the build backend (hatchling) using a simple regex per
+`[tool.hatch.version]` in pyproject.toml. Keep it to a single assignment.
+"""
+
+__version__ = "2.8.1"
