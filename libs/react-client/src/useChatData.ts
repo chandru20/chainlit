@@ -8,6 +8,7 @@ import {
   chatSettingsInputsState,
   chatSettingsValueState,
   elementState,
+  inputWidgetsState,
   loadingState,
   sessionState,
   tasklistState
@@ -33,6 +34,7 @@ const useChatData = () => {
   const chatSettingsDefaultValue = useRecoilValue(
     chatSettingsDefaultValueSelector
   );
+  const inputWidgets = useRecoilValue(inputWidgetsState);
 
   const connected = session?.socket.connected && !session?.error;
   const disabled =
@@ -53,6 +55,7 @@ const useChatData = () => {
     disabled,
     elements,
     error: session?.error,
+    inputWidgets,
     loading,
     tasklists
   };

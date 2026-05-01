@@ -81,6 +81,11 @@ export const modesState = atom<IMode[]>({
   default: []
 });
 
+export const inputWidgetsState = atom<any[]>({
+  key: 'InputWidgets',
+  default: []
+});
+
 export const tokenCountState = atom<number>({
   key: 'TokenCount',
   default: 0

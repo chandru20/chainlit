@@ -183,6 +183,13 @@ const useChatInteract = () => {
     [session?.socket]
   );
 
+  const updateInputWidget = useCallback(
+    (widgetId: string, value: any) => {
+      session?.socket.emit('input_widget_change', { id: widgetId, value });
+    },
+    [session?.socket]
+  );
+
   const stopTask = useCallback(() => {
     setMessages((oldMessages) =>
       oldMessages.map((m) => {
@@ -217,6 +224,7 @@ const useChatInteract = () => {
     setIdToResume,
     updateChatSettings,
     editChatSettings,
+    updateInputWidget,
     toggleMessageFavorite
   };
 };

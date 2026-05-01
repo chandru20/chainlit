@@ -21,6 +21,7 @@ import {
   elementState,
   favoriteMessagesState,
   firstUserInteraction,
+  inputWidgetsState,
   isAiSpeakingState,
   loadingState,
   mcpState,
@@ -87,6 +88,7 @@ const useChatSession = () => {
   const idToResume = useRecoilValue(threadIdToResumeState);
   const setThreadResumeError = useSetRecoilState(resumeThreadErrorState);
   const setFavoriteMessages = useSetRecoilState(favoriteMessagesState);
+  const setInputWidgets = useSetRecoilState(inputWidgetsState);
 
   const [currentThreadId, setCurrentThreadId] =
     useRecoilState(currentThreadIdState);
@@ -376,6 +378,10 @@ const useChatSession = () => {
 
       socket.on('set_modes', (modes: IMode[]) => {
         setModes(modes);
+      });
+
+      socket.on('set_input_widgets', (widgets: any[]) => {
+        setInputWidgets(widgets);
       });
 
       socket.on('set_favorites', (steps: IStep[]) => {
