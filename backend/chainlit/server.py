@@ -160,6 +160,11 @@ async def lifespan(app: FastAPI):
 
         slack_task = asyncio.create_task(start_socket_mode())
 
+    # Include Chainlit's router here (inside lifespan startup) so that any routes
+    # registered at module level by the application (e.g. custom auth endpoints)
+    # are already in app.routes and will be matched BEFORE the SPA catch-all.
+    app.include_router(router)
+
     try:
         yield
     finally:
@@ -1807,7 +1812,5 @@ async def serve(request: Request):
 
     return response
 
-
-app.include_router(router)
 
 import chainlit.socket  # noqa
