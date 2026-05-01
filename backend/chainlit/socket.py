@@ -505,3 +505,19 @@ async def edit_settings(sid, settings: Dict[str, Any]):
 
     if config.code.on_settings_edit:
         await config.code.on_settings_edit(settings)
+
+
+@sio.on("input_widget_change")
+async def handle_input_widget_change(sid, data: Dict[str, Any]):
+    """Handle input widget value changes emitted from the InputBar frontend component."""
+    context = init_ws_context(sid)
+    widget_id = data.get("id")
+    widget_value = data.get("value")
+
+    callbacks = getattr(context.session, "input_widget_callbacks", {})
+    callback = callbacks.get(widget_id)
+    if callback:
+        try:
+            await callback(widget_value)
+        except Exception:
+            logger.exception(f"Error in on_change callback for widget '{widget_id}'")
