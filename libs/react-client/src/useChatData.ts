@@ -1,8 +1,9 @@
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import {
   actionState,
   askUserState,
+  bufferedSidebarState,
   callFnState,
   chatSettingsDefaultValueSelector,
   chatSettingsInputsState,
@@ -11,6 +12,7 @@ import {
   inputWidgetsState,
   loadingState,
   sessionState,
+  sideViewState,
   tasklistState
 } from './state';
 
@@ -35,6 +37,9 @@ const useChatData = () => {
     chatSettingsDefaultValueSelector
   );
   const inputWidgets = useRecoilValue(inputWidgetsState);
+  const bufferedSidebar = useRecoilValue(bufferedSidebarState);
+  const sideView = useRecoilValue(sideViewState);
+  const setSideView = useSetRecoilState(sideViewState);
 
   const connected = session?.socket.connected && !session?.error;
   const disabled =
@@ -47,6 +52,7 @@ const useChatData = () => {
   return {
     actions,
     askUser,
+    bufferedSidebar,
     callFn,
     chatSettingsDefaultValue,
     chatSettingsInputs,
@@ -57,6 +63,8 @@ const useChatData = () => {
     error: session?.error,
     inputWidgets,
     loading,
+    setSideView,
+    sideView,
     tasklists
   };
 };

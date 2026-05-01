@@ -240,6 +240,15 @@ export const sideViewState = atom<
   default: undefined
 });
 
+// Holds sidebar elements sent by the server without auto-opening the panel.
+// The panel only opens when the user explicitly clicks the toggle button.
+export const bufferedSidebarState = atom<
+  { title: string; elements: IMessageElement[]; key?: string } | undefined
+>({
+  key: 'BufferedSidebar',
+  default: undefined
+});
+
 export const currentThreadIdState = atom<string | undefined>({
   key: 'CurrentThreadId',
   default: undefined

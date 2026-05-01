@@ -37,7 +37,7 @@ const Header = memo(() => {
   const navigate = useNavigate();
   const { data } = useAuth();
   const { config } = useConfig();
-  const { chatSettingsInputs } = useChatData();
+  const { chatSettingsInputs, bufferedSidebar, setSideView, sideView } = useChatData();
   const { open, openMobile, isMobile } = useSidebar();
   const setChatSettingsSidebarOpen = useSetRecoilState(
     chatSettingsSidebarOpenState
@@ -53,6 +53,9 @@ const Header = memo(() => {
   const showSettingsInHeader =
     config?.ui?.chat_settings_location === 'sidebar' &&
     chatSettingsInputs.length > 0;
+
+  const elementPanelOpen = !!sideView;
+  const hasElementPanel = !!bufferedSidebar?.elements?.length;
 
   return (
     <div
@@ -119,6 +122,40 @@ const Header = memo(() => {
             </TooltipTrigger>
             <TooltipContent>
               <Translator path="chat.settings.title" />
+            </TooltipContent>
+          </Tooltip>
+        )}
+        {hasElementPanel && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                id="element-sidebar-toggle"
+                onClick={() =>
+                  setSideView(elementPanelOpen ? undefined : bufferedSidebar)
+                }
+                variant={elementPanelOpen ? 'secondary' : 'ghost'}
+                size="icon"
+                className="text-muted-foreground hover:text-muted-foreground"
+              >
+                {/* Panel-right icon (layout with right panel) */}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <rect width="18" height="18" x="3" y="3" rx="2" />
+                  <path d="M15 3v18" />
+                </svg>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              {elementPanelOpen ? 'Close panel' : bufferedSidebar?.title || 'Open panel'}
             </TooltipContent>
           </Tooltip>
         )}

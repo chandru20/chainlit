@@ -30,6 +30,7 @@ import {
   resumeThreadErrorState,
   sessionIdState,
   sessionState,
+  bufferedSidebarState,
   sideViewState,
   tasklistState,
   threadIdToResumeState,
@@ -79,6 +80,7 @@ const useChatSession = () => {
   const setCommands = useSetRecoilState(commandsState);
   const setModes = useSetRecoilState(modesState);
   const setSideView = useSetRecoilState(sideViewState);
+  const setBufferedSidebar = useSetRecoilState(bufferedSidebarState);
   const setElements = useSetRecoilState(elementState);
   const setTasklists = useSetRecoilState(tasklistState);
   const setActions = useSetRecoilState(actionState);
@@ -389,7 +391,7 @@ const useChatSession = () => {
       });
 
       socket.on('set_sidebar_title', (title: string) => {
-        setSideView((prev) => {
+        setBufferedSidebar((prev) => {
           if (prev?.title === title) return prev;
           return { title, elements: prev?.elements || [] };
         });
@@ -399,7 +401,8 @@ const useChatSession = () => {
         'set_sidebar_elements',
         ({ elements, key }: { elements: IMessageElement[]; key?: string }) => {
           if (!elements.length) {
-            setSideView(undefined);
+            setBufferedSidebar(undefined);
+            setSideView(undefined); // close if panel was open
           } else {
             elements.forEach((element) => {
               if (!element.url && element.chainlitKey) {
@@ -409,7 +412,7 @@ const useChatSession = () => {
                 );
               }
             });
-            setSideView((prev) => {
+            setBufferedSidebar((prev) => {
               if (prev?.key === key) return prev;
               return { title: prev?.title || '', elements: elements, key };
             });
