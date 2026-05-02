@@ -281,7 +281,6 @@ export default function MessageComposer({
         onEnter={submit}
         placeholder={t('chat.input.placeholder')}
       />
-      <InputBarWidgets disabled={disabled} />
       <div className="flex items-center justify-between">
         <div className="flex items-center -ml-1.5">
           <VoiceButton disabled={disabled} />
@@ -312,6 +311,7 @@ export default function MessageComposer({
               </Tooltip>
             </TooltipProvider>
           )}
+          <InputBarWidgets disabled={disabled} />
           <McpButton disabled={disabled} />
           {modes.map((mode) => (
             <ModePicker

@@ -80,7 +80,7 @@ export default function WelcomeScreen(props: Props) {
       }
     }
 
-    return <Logo className="w-[200px] mb-2" />;
+    return <Logo className="w-[120px] mb-2" />;
   }, [chatProfiles, chatProfile]);
 
   if (hasMessage(messages)) return null;

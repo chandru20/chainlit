@@ -106,7 +106,7 @@ const SwitchWidget = ({ widget, disabled }: InputBarWidgetProps) => {
       {widget.label && (
         <label
           htmlFor={widget.id}
-          className="text-xs text-muted-foreground cursor-pointer select-none"
+          className="text-xs text-muted-foreground cursor-pointer select-none whitespace-nowrap"
         >
           {widget.label}
         </label>
@@ -142,7 +142,7 @@ export const InputBarWidgets = ({ disabled }: InputBarWidgetsProps) => {
   if (!inputWidgets || inputWidgets.length === 0) return null;
 
   return (
-    <div className="flex items-center gap-2 flex-wrap pb-1">
+    <div className="flex items-center gap-2 flex-nowrap">
       {inputWidgets.map((widget: WidgetDict) => {
         if (widget.type === 'select') {
           return (
