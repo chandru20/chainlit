@@ -132,6 +132,10 @@
       "title": "Settings panel",
       "customize": "Customize your chat settings here"
     },
+    "welcome": {
+      "greeting": "Welcome, {{name}}!",
+      "subtitle": "How can I help you today?"
+    },
     "watermark": "LLMs can make mistakes. Check important info."
   },
   "threadHistory": {

@@ -10,6 +10,7 @@ import {
 import {
   ChainlitContext,
   FileSpec,
+  useAuth,
   useChatMessages,
   useChatSession,
   useConfig
@@ -17,6 +18,7 @@ import {
 
 import { Logo } from '@/components/Logo';
 import { Markdown } from '@/components/Markdown';
+import { useTranslation } from 'components/i18n/Translator';
 
 import MessageComposer from './MessageComposer';
 import Starters from './Starters';
@@ -33,6 +35,8 @@ export default function WelcomeScreen(props: Props) {
   const { config } = useConfig();
   const { chatProfile } = useChatSession();
   const { messages } = useChatMessages();
+  const { user } = useAuth();
+  const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
 
   const chatProfiles = config?.chatProfiles;
@@ -43,6 +47,8 @@ export default function WelcomeScreen(props: Props) {
   useEffect(() => {
     setIsVisible(true);
   }, []);
+
+  const displayName = user?.display_name || user?.identifier || null;
 
   const logo = useMemo(() => {
     if (chatProfile && chatProfiles) {
@@ -88,6 +94,20 @@ export default function WelcomeScreen(props: Props) {
       )}
     >
       {logo}
+      {displayName ? (
+        <div className="text-center space-y-1">
+          <p className="text-2xl font-semibold text-foreground">
+            {t('chat.welcome.greeting', { name: displayName })}
+          </p>
+          <p className="text-muted-foreground text-base">
+            {t('chat.welcome.subtitle')}
+          </p>
+        </div>
+      ) : (
+        <p className="text-muted-foreground text-base text-center">
+          {t('chat.welcome.subtitle')}
+        </p>
+      )}
       <MessageComposer {...props} />
       <Starters />
     </div>
