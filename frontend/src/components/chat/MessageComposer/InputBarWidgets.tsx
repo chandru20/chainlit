@@ -52,7 +52,7 @@ const SelectWidget = ({ widget, disabled }: InputBarWidgetProps) => {
     >
       <SelectTrigger
         id={widget.id}
-        className="h-7 text-xs rounded-full px-3 border-border/50 bg-background min-w-[90px] max-w-[180px]"
+        className="h-7 text-xs rounded-full px-3 border-border/50 bg-background min-w-[70px] max-w-[130px]"
       >
         <SelectValue placeholder={widget.label || 'Select'} />
       </SelectTrigger>
