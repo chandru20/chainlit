@@ -18,7 +18,6 @@ jobs:
           python-version: '3.12'
           enable-cache: true
       - name: Install Python dependencies
-        run: uv sync --package chainlit --extra tests --extra custom-data
-        working-directory: ./backend
+        run: uv sync --package chainlit-chandru20 --extra tests --extra custom-data
       - name: Run backend tests
         run: uv run pytest backend/ --ignore=backend/tests/e2e -q
