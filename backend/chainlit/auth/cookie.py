@@ -22,7 +22,9 @@ assert _cookie_samesite in [
 ], (
     "Invalid value for CHAINLIT_COOKIE_SAMESITE. Must be one of 'lax', 'strict' or 'none'."
 )
-_cookie_secure = _cookie_samesite == "none" or os.environ.get("CHAINLIT_SECURE_COOKIES", "").lower() in ("1", "true", "yes")
+_cookie_secure = _cookie_samesite == "none" or os.environ.get(
+    "CHAINLIT_SECURE_COOKIES", ""
+).lower() in ("1", "true", "yes")
 if _cookie_root_path := os.environ.get("CHAINLIT_ROOT_PATH", None):
     _cookie_path = os.environ.get(_cookie_root_path, "/")
 else:

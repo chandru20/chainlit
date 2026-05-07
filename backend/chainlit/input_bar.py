@@ -1,7 +1,7 @@
 from typing import List
 
-from chainlit.input_widget import InputWidget
 from chainlit.context import context
+from chainlit.input_widget import InputWidget
 
 
 class InputBar:

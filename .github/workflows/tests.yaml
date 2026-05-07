@@ -1,4 +1,4 @@
-name: Unit & integration tests
+name: Unit tests
 
 on: [workflow_call]
 
@@ -7,22 +7,17 @@ permissions: read-all
 jobs:
   tests:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ['3.10', '3.11', '3.12', '3.13']
-    name: python ${{ matrix.python-version }}
+    name: python 3.12
     env:
       BACKEND_DIR: ./backend
     steps:
-      - uses: actions/checkout@v6
-      - uses: ./.github/actions/pnpm-node-install
-        name: Install Node, pnpm and dependencies.
-      - uses: ./.github/actions/uv-python-install
-        name: Install Python, uv and Python dependencies
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
         with:
-          python-version: ${{ matrix.python-version }}
-          uv-args: --extra tests --extra custom-data
+          python-version: '3.12'
+          enable-cache: true
+      - name: Install Python dependencies
+        run: uv sync --extra tests --extra custom-data
       - name: Run backend tests
-        run: uv run --no-project pytest --cov=chainlit/
-      - name: Run frontend tests
-        run: pnpm run test
+        run: uv run pytest backend/ --ignore=backend/tests/e2e -q

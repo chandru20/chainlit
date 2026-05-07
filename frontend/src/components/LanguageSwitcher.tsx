@@ -1,3 +1,4 @@
+import { SUPPORTED_LANGUAGES, useLanguage } from '@/contexts/LanguageContext';
 import { Globe } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -7,8 +8,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-
-import { SUPPORTED_LANGUAGES, useLanguage } from '@/contexts/LanguageContext';
 
 export function LanguageSwitcher() {
   const { language, setLanguage } = useLanguage();

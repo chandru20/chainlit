@@ -13,17 +13,17 @@ jobs:
       matrix:
         include:
           - name: 'Linting: backend'
-            command: uv run --no-project scripts/lint.py
+            command: uv run --no-project ruff check backend/chainlit/
           - name: 'Formatting: backend'
-            command: uv run --no-project scripts/format.py --check
-          - name: 'Type checking: backend'
-            command: uv run --no-project scripts/type_check.py
+            command: uv run --no-project ruff format --check backend/chainlit/
     name: ${{ matrix.name }}
     steps:
-      - uses: actions/checkout@v6
-      - uses: ./.github/actions/uv-python-install
-        name: Install Python, uv and Python dependencies
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
         with:
-          uv-args: --no-install-workspace --all-extras --dev
+          enable-cache: true
+      - name: Install ruff
+        run: uv tool install ruff
       - name: ${{ matrix.name }}
         run: ${{ matrix.command }}

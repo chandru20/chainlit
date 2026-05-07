@@ -18,7 +18,6 @@ from typing import TYPE_CHECKING, Any, Dict
 from literalai import ChatGeneration, CompletionGeneration, GenerationMessage
 from pydantic.dataclasses import dataclass
 
-from chainlit.input_bar import InputBar
 import chainlit.input_widget as input_widget
 from chainlit.action import Action
 from chainlit.cache import cache
@@ -40,6 +39,7 @@ from chainlit.element import (
     Text,
     Video,
 )
+from chainlit.input_bar import InputBar
 from chainlit.message import (
     AskActionMessage,
     AskElementMessage,
@@ -148,7 +148,6 @@ __all__ = [
     "ChatGeneration",
     "ChatProfile",
     "ChatSettings",
-    "InputBar",
     "CompletionGeneration",
     "CopilotFunction",
     "CustomElement",
@@ -159,6 +158,7 @@ __all__ = [
     "GenerationMessage",
     "Image",
     "InputAudioChunk",
+    "InputBar",
     "LangchainCallbackHandler",
     "LlamaIndexCallbackHandler",
     "Message",
