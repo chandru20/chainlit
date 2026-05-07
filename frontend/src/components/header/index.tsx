@@ -11,6 +11,7 @@ import {
 
 import AudioPresence from '@/components/AudioPresence';
 import ButtonLink from '@/components/ButtonLink';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { Settings } from '@/components/icons/Settings';
 import { Button } from '@/components/ui/button';
 import { useSidebar } from '@/components/ui/sidebar';
@@ -160,6 +161,7 @@ const Header = memo(() => {
           </Tooltip>
         )}
         <ThemeToggle />
+        <LanguageSwitcher />
         <UserNav />
       </div>
     </div>

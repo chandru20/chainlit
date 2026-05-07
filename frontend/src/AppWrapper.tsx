@@ -6,14 +6,15 @@ import { useTranslation } from 'react-i18next';
 import {
   useApi,
   useAuth,
-  useChatInteract,
-  useConfig
+  useChatInteract
 } from '@chainlit/react-client';
+
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function AppWrapper() {
   const [translationLoaded, setTranslationLoaded] = useState(false);
   const { isAuthenticated, isReady } = useAuth();
-  const { language: languageInUse } = useConfig();
+  const { language: languageInUse } = useLanguage();
   const { i18n } = useTranslation();
   const { windowMessage } = useChatInteract();
 

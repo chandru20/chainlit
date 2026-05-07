@@ -9,6 +9,7 @@ import { ChainlitContext } from '@chainlit/react-client';
 import './index.css';
 
 import { i18nSetupLocalization } from './i18n';
+import { LanguageProvider } from './contexts/LanguageContext';
 
 i18nSetupLocalization();
 
@@ -16,7 +17,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <ChainlitContext.Provider value={apiClient}>
       <RecoilRoot>
-        <AppWrapper />
+        <LanguageProvider>
+          <AppWrapper />
+        </LanguageProvider>
       </RecoilRoot>
     </ChainlitContext.Provider>
   </React.StrictMode>
