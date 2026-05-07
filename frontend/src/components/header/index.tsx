@@ -38,7 +38,8 @@ const Header = memo(() => {
   const navigate = useNavigate();
   const { data } = useAuth();
   const { config } = useConfig();
-  const { chatSettingsInputs, bufferedSidebar, setSideView, sideView } = useChatData();
+  const { chatSettingsInputs, bufferedSidebar, setSideView, sideView } =
+    useChatData();
   const { open, openMobile, isMobile } = useSidebar();
   const setChatSettingsSidebarOpen = useSetRecoilState(
     chatSettingsSidebarOpenState
@@ -156,7 +157,9 @@ const Header = memo(() => {
               </Button>
             </TooltipTrigger>
             <TooltipContent>
-              {elementPanelOpen ? 'Close panel' : bufferedSidebar?.title || 'Open panel'}
+              {elementPanelOpen
+                ? 'Close panel'
+                : bufferedSidebar?.title || 'Open panel'}
             </TooltipContent>
           </Tooltip>
         )}

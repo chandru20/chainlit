@@ -8,8 +8,8 @@ import { ChainlitContext } from '@chainlit/react-client';
 
 import './index.css';
 
-import { i18nSetupLocalization } from './i18n';
 import { LanguageProvider } from './contexts/LanguageContext';
+import { i18nSetupLocalization } from './i18n';
 
 i18nSetupLocalization();
 

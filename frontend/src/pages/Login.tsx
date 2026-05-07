@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { LoginForm } from '@/components/LoginForm';
 import { Logo } from '@/components/Logo';
-import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { useTheme } from '@/components/ThemeProvider';
 
 import { useQuery } from 'hooks/query';
