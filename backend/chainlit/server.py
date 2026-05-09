@@ -1856,4 +1856,6 @@ async def serve(request: Request):
     return response
 
 
+app.include_router(router)
+
 import chainlit.socket  # noqa

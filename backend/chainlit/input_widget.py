@@ -21,7 +21,7 @@ class InputWidget:
     def __post_init__(
         self,
     ) -> None:
-        if not self.id or self.label is None:
+        if not self.id or not self.label:
             raise ValueError("Must provide key and label to load InputWidget")
 
     @abstractmethod
