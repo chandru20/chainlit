@@ -12,6 +12,15 @@ jobs:
       BACKEND_DIR: ./backend
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: 'pnpm'
+          cache-dependency-path: '**/pnpm-lock.yaml'
       - name: Install uv
         uses: astral-sh/setup-uv@v5
         with:
