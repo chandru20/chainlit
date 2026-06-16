@@ -11,11 +11,11 @@ resolution-markers = [
 
 [manifest]
 members = [
-    "chainlit",
+    "chainlit-chandru20",
 ]
 
 [manifest.dependency-groups]
-backend = [{ name = "chainlit", editable = "backend" }]
+backend = [{ name = "chainlit-chandru20", editable = "backend" }]
 dev = [{ name = "actionlint-py", specifier = ">=1.7.12.24" }]
 
 [[package]]
@@ -687,7 +687,7 @@ wheels = [
 ]
 
 [[package]]
-name = "chainlit"
+name = "chainlit-chandru20"
 source = { editable = "backend" }
 dependencies = [
     { name = "aiofiles" },

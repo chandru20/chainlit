@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
+import { PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react';
 
 import type { IStep } from '@chainlit/react-client';
 
@@ -28,6 +28,10 @@ export default function Step({
   const hasContent = step.input || step.output || step.steps?.length;
   const isError = step.isError;
   const stepName = step.name;
+  const isReasoningStep =
+    step.metadata?.is_thinking_step === true ||
+    /^(Thinking|Thought|Reasoning)/i.test(stepName || '');
+  const reasoningContentRef = useRef<HTMLDivElement>(null);
 
   const [openValue, setOpenValue] = useState<string>(
     step.defaultOpen ? step.id : ''
@@ -39,6 +43,24 @@ export default function Step({
       setOpenValue('');
     }
   }, [using, step.autoCollapse]);
+
+  useEffect(() => {
+    if (!isReasoningStep || !using) {
+      return;
+    }
+
+    const content = reasoningContentRef.current;
+    if (!content) {
+      return;
+    }
+
+    requestAnimationFrame(() => {
+      content.scrollTo({
+        top: content.scrollHeight,
+        behavior: 'smooth'
+      });
+    });
+  }, [isReasoningStep, step.output, using]);
 
   // If there's no content, just render the status without accordion
   if (!hasContent) {
@@ -97,8 +119,22 @@ export default function Step({
             )}
           </AccordionTrigger>
           <AccordionContent>
-            <div className="flex-grow mt-4 ml-1 pl-4 border-l-2 border-primary">
-              {children}
+            <div
+              className={cn(
+                'flex-grow mt-4 ml-1 pl-4 border-l-2 border-primary',
+                isReasoningStep && 'pr-1'
+              )}
+            >
+              {isReasoningStep ? (
+                <div
+                  ref={reasoningContentRef}
+                  className="max-h-[260px] overflow-y-auto overscroll-contain scroll-smooth rounded-md bg-muted/30 px-3 py-2 text-sm custom-scrollbar"
+                >
+                  {children}
+                </div>
+              ) : (
+                children
+              )}
             </div>
           </AccordionContent>
         </AccordionItem>
